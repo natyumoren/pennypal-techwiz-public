@@ -1,0 +1,63 @@
+name: Test & build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      # Optional: add these as repository secrets to build with Gemini and
+      # Firebase enabled. Without them the app uses its offline fallbacks.
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_SENDER_ID: ${{ secrets.FIREBASE_SENDER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.27.4
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Unit tests
+        run: flutter test
+
+      - name: Build Android APK
+        run: |
+          DEFINES=""
+          for v in GEMINI_API_KEY FIREBASE_API_KEY FIREBASE_APP_ID FIREBASE_PROJECT_ID FIREBASE_SENDER_ID; do
+            if [ -n "${!v}" ]; then DEFINES="$DEFINES --dart-define=$v=${!v}"; fi
+          done
+          flutter build apk --release $DEFINES
+          cp build/app/outputs/flutter-apk/app-release.apk PennyPal.apk
+
+      - name: Build web
+        run: flutter build web --release --no-web-resources-cdn
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PennyPal-apk
+          path: PennyPal.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PennyPal-web
+          path: build/web

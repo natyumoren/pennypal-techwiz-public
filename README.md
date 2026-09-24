@@ -136,6 +136,15 @@ sync status.
 
 ---
 
+## Documentation
+
+* `docs/PennyPal_Documentation.docx` (and `.pdf`): problem definition, design
+  specifications, DFDs, flowcharts, ER diagram, database design, test data and test
+  cases, installation instructions and user credentials.
+* `docs/ReadMe.doc`: submission contents, credentials and assumptions.
+* `docs/diagrams/`: Graphviz sources (`.dot`) and images of every diagram.
+  Regenerate one with `dot -Tpng -Gdpi=150 file.dot -o file.png`.
+
 ## Project structure
 
 ```

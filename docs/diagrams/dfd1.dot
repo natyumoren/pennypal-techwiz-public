@@ -1,0 +1,16 @@
+digraph D1 { graph [fontname="Nunito", rankdir=LR, bgcolor=white, pad=0.3, nodesep=0.3, ranksep=0.9]; edge [fontname="Nunito", fontsize=9, color="#546E7A", arrowsize=0.7];
+ node [fontname="Nunito", fontsize=10];
+ node [shape=box, style=filled]; s [label="Student", fillcolor="#E8F5EC", color="#1E8E4E"]; a [label="Administrator", fillcolor="#E3F2FD", color="#1E88E5"]; g [label="Gemini API", fillcolor="#F3E5F5", color="#6A1B9A"]; fb [label="Firebase", fillcolor="#F3E5F5", color="#6A1B9A"];
+ node [shape=circle, style=filled, fillcolor="#FFF8E1", color="#E08A00", width=1.15, fixedsize=true];
+ p1 [label="1.0\nManage\naccounts"]; p2 [label="2.0\nRecord\ntransactions"]; p3 [label="3.0\nManage budgets\n& alerts"]; p4 [label="4.0\nManage\nsavings goals"]; p5 [label="5.0\nGenerate\nreports"]; p6 [label="6.0\nChatbot &\nlearning"]; p7 [label="7.0\nSupport &\nfeedback"]; p8 [label="8.0\nAdmin\nmanagement"]; p9 [label="9.0\nSync data"];
+ node [shape=record, style=filled, fillcolor="#FAFAFA", color="#546E7A", fixedsize=false, width=0];
+ d1 [label="D1 | Users / UserProfiles"]; d2 [label="D2 | Transactions / Categories"]; d3 [label="D3 | Budgets"]; d4 [label="D4 | SavingsGoals"]; d5 [label="D5 | Notifications"]; d6 [label="D6 | LearningContent / AppSettings"]; d7 [label="D7 | SupportQueries / Feedback"]; d8 [label="D8 | Reports"]; d9 [label="D9 | SyncQueue"];
+ s -> p1 [label="credentials"]; p1 -> d1; d1 -> p1;
+ s -> p2 [label="income / expense"]; p2 -> d2; d2 -> p3 [label="month spending"];
+ s -> p3 [label="limits, threshold"]; p3 -> d3; p3 -> d5 [label="alert"]; d5 -> s [label="notifications"];
+ s -> p4 [label="goal, contribution"]; p4 -> d4; p4 -> d5 [label="milestone"];
+ d2 -> p5; p5 -> d8; p5 -> s [label="charts, CSV"];
+ s -> p6 [label="question"]; p6 -> g [label="question + totals"]; g -> p6; d6 -> p6 [label="lessons"]; p6 -> s [label="answer, lesson"];
+ s -> p7 [label="query, feedback"]; p7 -> d7; d7 -> p8; a -> p8 [label="reply, content,\nsettings, status"]; p8 -> d6; p8 -> d7; p8 -> d1; p8 -> a [label="statistics"];
+ p2 -> d9; p3 -> d9; p4 -> d9; d9 -> p9; p9 -> fb [label="upserts / deletes"];
+}

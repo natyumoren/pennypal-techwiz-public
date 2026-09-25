@@ -1,0 +1,18 @@
+digraph A { graph [fontname="Nunito", rankdir=TB, bgcolor=white, pad=0.3, nodesep=0.3, ranksep=0.5, fontsize=12]; node [fontname="Nunito", fontsize=11, style="rounded,filled", fillcolor="#FFFFFF", color="#1E8E4E", penwidth=1.4]; edge [fontname="Nunito", fontsize=9, color="#546E7A", arrowsize=0.7];
+ subgraph cluster_dev { label="User devices"; style="rounded,filled"; fillcolor="#F1F8F4"; color="#9CCBAE";
+   phone [label="Android phone"]; ios [label="iPhone / iPad"]; tab [label="Android tablet"]; web [label="Web browser"]; }
+ subgraph cluster_app { label="PennyPal Flutter app (one shared Dart codebase)"; style="rounded,filled"; fillcolor="#E8F5EC"; color="#1E8E4E";
+   ui [label="Screens\n(student + admin UI)", shape=box];
+   st [label="State\n(Provider: Session, Finance)", shape=box];
+   svc [label="Services\nanalytics · budget monitor ·\ncategoriser · reports · sync", shape=box];
+   repo [label="Repositories", shape=box];
+   db [label="Local SQLite database\n+ sync queue (offline cache)", shape=cylinder, fillcolor="#FFF8E1", color="#E08A00"];
+   ui -> st -> svc -> repo -> db; st -> repo [constraint=false]; }
+ subgraph cluster_cloud { label="Cloud services (optional)"; style="rounded,filled"; fillcolor="#E3F2FD"; color="#90CAF9";
+   auth [label="Firebase Authentication"]; fs [label="Cloud Firestore", shape=cylinder]; gem [label="Google Gemini API\n(Google AI Studio key)"]; }
+ notif [label="Device notifications\n(Android / iOS)", color="#E08A00"];
+ rules [label="Rule-based advisor\n(offline fallback)", color="#6A1B9A"];
+ {phone ios tab web} -> ui;
+ db -> fs [label="sync queue\nwhen online"]; st -> auth [label="sign in"];
+ svc -> gem [label="chat question\n+ monthly totals"]; svc -> rules [label="no key / timeout"]; svc -> notif [label="budget alerts"];
+}

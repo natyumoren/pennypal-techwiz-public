@@ -1,0 +1,14 @@
+digraph F { graph [fontname="Nunito", rankdir=TB, bgcolor=white, pad=0.25, nodesep=0.35, ranksep=0.32]; node [fontname="Nunito", fontsize=10, style=filled, fillcolor="#FFFFFF", color="#1E8E4E", penwidth=1.3, shape=box]; edge [fontname="Nunito", fontsize=9, color="#546E7A", arrowsize=0.7];
+ s [label="Start", shape=oval, fillcolor="#1E8E4E", fontcolor=white]; tap [label="Tap Add → Add expense"]; amt [label="Enter amount, description,\ndate, payment mode", shape=parallelogram, fillcolor="#E3F2FD", color="#1E88E5"];
+ sug [label="Categoriser compares description\nwith past expenses and keywords\n(fuzzy match tolerates typos)"]; found [label="Confident match?", shape=diamond, fillcolor="#FFF8E1", color="#E08A00"];
+ fill [label="Pre-select suggested category\n(student can change it)"]; pick [label="Student chooses category", shape=parallelogram, fillcolor="#E3F2FD", color="#1E88E5"];
+ rec [label="Attach receipt photo?", shape=diamond, fillcolor="#FFF8E1", color="#E08A00"]; photo [label="Take / choose photo\nstore on device", shape=parallelogram, fillcolor="#E3F2FD", color="#1E88E5"];
+ val [label="Amount > 0 and\ncategory chosen?", shape=diamond, fillcolor="#FFF8E1", color="#E08A00"]; err [label="Show validation message"];
+ save [label="Save to SQLite\nAdd entry to SyncQueue"]; mon [label="Budget monitor: compare this month's\nusage before and after the expense"];
+ cross [label="Threshold or limit\ncrossed by this expense?", shape=diamond, fillcolor="#FFF8E1", color="#E08A00"];
+ alert [label="Show alert message\nSave notification\nSend device notification (if enabled)"];
+ dash [label="Refresh dashboard, charts, budgets"]; e [label="End", shape=oval, fillcolor="#1E8E4E", fontcolor=white];
+ s -> tap -> amt -> sug -> found; found -> fill [label="yes"]; found -> pick [label="no"]; fill -> rec; pick -> rec;
+ rec -> photo [label="yes"]; rec -> val [label="no"]; photo -> val; val -> err [label="no"]; err -> amt; val -> save [label="yes"];
+ save -> mon -> cross; cross -> alert [label="yes"]; cross -> dash [label="no"]; alert -> dash -> e;
+}

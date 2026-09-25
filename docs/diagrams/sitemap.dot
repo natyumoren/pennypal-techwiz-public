@@ -1,0 +1,15 @@
+digraph S { graph [fontname="Nunito", rankdir=LR, bgcolor=white, pad=0.3, nodesep=0.12, ranksep=0.35]; node [fontname="Nunito", fontsize=11, style="rounded,filled", fillcolor="#FFFFFF", color="#1E8E4E", penwidth=1.4]; edge [fontname="Nunito", fontsize=9, color="#546E7A", arrowsize=0.7]; edge [arrowhead=none];
+ root [label="PennyPal", fillcolor="#1E8E4E", fontcolor=white, fontsize=14];
+ auth [label="Authentication", fillcolor="#E8F5EC"]; stu [label="Student app", fillcolor="#E8F5EC"]; adm [label="Admin portal", fillcolor="#E3F2FD", color="#1E88E5"];
+ root -> {auth stu adm};
+ login [label="Login\n(demo account buttons)"]; reg [label="Register"]; auth -> {login reg};
+ home [label="Home / Dashboard"]; hist [label="History"]; bud [label="Budget"]; goals [label="Goals"]; more [label="More"];
+ stu -> {home hist bud goals more};
+ home -> hx [label=""]; hx [label="Summary cards · Budget progress · Tips\nSpending chart · Recent transactions"];
+ hist -> hy; hy [label="Search · Filters (type, category, date)\nTransaction details · Add / Edit / Delete\nIncome & expense forms (smart category, receipt)"];
+ bud -> by; by [label="Monthly budget\nCategory limits + alert threshold\nCopy last month"];
+ goals -> gy; gy [label="Active goals · Goal history\nNew / edit goal · Contribution\nMilestones"];
+ more -> my; my [label="Profile & settings · Reports · Categories\nNotifications · Ask Penny (chatbot)\nLearning hub · Feedback · Contact support\nAbout & privacy · Log out"];
+ ao [label="Overview\n(statistics)", color="#1E88E5"]; au [label="Students\n(activate / delete)", color="#1E88E5"]; ac [label="Content\n(learning lessons)", color="#1E88E5"]; as [label="Support\n(queries + feedback)", color="#1E88E5"]; ase [label="Settings\n(app settings, analytics export)", color="#1E88E5"];
+ adm -> {ao au ac as ase};
+}

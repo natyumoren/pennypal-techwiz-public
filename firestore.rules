@@ -1,0 +1,36 @@
+rules_version = '2';
+
+// Cloud Firestore security rules for PennyPal's optional cloud sync.
+// Deploy with:  firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && request.auth.token.email == 'admin@pennypal.app';
+    }
+    function ownsExisting() {
+      return resource == null || resource.data.ownerUid == request.auth.uid;
+    }
+    function writesOwn() {
+      return request.resource == null || request.resource.data.ownerUid == request.auth.uid;
+    }
+
+    // A student's own records: students/{localUserId}/{table}/{recordId}
+    match /students/{studentId}/{table}/{recordId} {
+      allow read: if isAdmin() || (signedIn() && ownsExisting());
+      allow create, update: if isAdmin() || (signedIn() && ownsExisting() && writesOwn());
+      allow delete: if isAdmin() || (signedIn() && ownsExisting());
+    }
+
+    // Shared content managed by the administrator.
+    match /LearningContent/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+    match /AppSettings/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+  }
+}

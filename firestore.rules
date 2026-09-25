@@ -6,8 +6,13 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null; }
+
+    // Replace with the Firebase user UID of the administrator account
+    // (Firebase console > Authentication > Users, after the admin has logged in
+    // to the app once). Do not match on the email address: anyone can register
+    // an email address in Firebase Authentication, a UID cannot be chosen.
     function isAdmin() {
-      return signedIn() && request.auth.token.email == 'admin@pennypal.app';
+      return signedIn() && request.auth.uid == 'REPLACE_WITH_ADMIN_FIREBASE_UID';
     }
     function ownsExisting() {
       return resource == null || resource.data.ownerUid == request.auth.uid;

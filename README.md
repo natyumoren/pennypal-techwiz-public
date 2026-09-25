@@ -97,7 +97,12 @@ Gemini API in Google Cloud, because a key built into an app can be extracted.
 
 1. Create a Firebase project, enable **Email/Password** sign-in and **Cloud Firestore**.
 2. Add a Web app in the Firebase console and copy its config values.
-3. Deploy the security rules: `firebase deploy --only firestore:rules` (`firestore.rules`).
+3. Log in to the app once as the administrator (`admin@pennypal.app`), so its Firebase
+   account exists. Copy that user's **UID** from Firebase console → Authentication →
+   Users and paste it into `isAdmin()` in `firestore.rules` in place of
+   `REPLACE_WITH_ADMIN_FIREBASE_UID`. Then deploy the rules:
+   `firebase deploy --only firestore:rules`. Until this is done, only students' own
+   records can be synced; the admin's shared content and settings are not writable.
 4. Run or build with:
 
 ```bash

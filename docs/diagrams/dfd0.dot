@@ -1,0 +1,14 @@
+digraph D0 { graph [fontname="Nunito", rankdir=LR, bgcolor=white, pad=0.3, nodesep=0.5, ranksep=1.1]; edge [fontname="Nunito", fontsize=9, color="#546E7A", arrowsize=0.7];
+ node [fontname="Nunito", fontsize=11];
+ s [label="Student", shape=box, style=filled, fillcolor="#E8F5EC", color="#1E8E4E"];
+ a [label="Administrator", shape=box, style=filled, fillcolor="#E3F2FD", color="#1E88E5"];
+ p [label="0\nPennyPal\nSystem", shape=circle, style=filled, fillcolor="#FFF8E1", color="#E08A00", width=1.6];
+ g [label="Google Gemini\n(AI service)", shape=box, style=filled, fillcolor="#F3E5F5", color="#6A1B9A"];
+ f [label="Firebase\n(cloud backup)", shape=box, style=filled, fillcolor="#F3E5F5", color="#6A1B9A"];
+ s -> p [label="registration & login details\nincome, expenses, receipts\nbudgets, goals, contributions\nfeedback, support queries, chat questions"];
+ p -> s [label="dashboard, reports, charts\nbudget alerts & notifications\ngoal progress, lessons\nchat answers, support replies"];
+ a -> p [label="login, lessons\nsupport replies, settings\naccount status changes"];
+ p -> a [label="statistics, student list\nqueries, feedback\nanalytics report"];
+ p -> g [label="question + monthly totals"]; g -> p [label="AI answer"];
+ p -> f [label="queued record changes"]; f -> p [label="auth confirmation"];
+}
